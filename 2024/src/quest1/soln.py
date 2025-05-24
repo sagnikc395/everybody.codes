@@ -13,20 +13,23 @@ def diabolical_round2(data: str) -> int:
     points = 0 
 
     pair_counter = 0 
-    for i in range(0,n):
-        for j in range(i+1,n):
-            if data[i] =='x' and data[j]!='x':
-                points += POINT_MAPPINGS.get(data[j],0)
-                pair_counter += 1 
-            elif data[j] =='x' and data[i]!='x':
-                points += POINT_MAPPINGS.get(data[i],0)
-                pair_counter += 1 
-            elif data[i] !='x' and data[j]!='x':
-                 points += POINT_MAPPINGS.get(data[i],0)+1
-                 points += POINT_MAPPINGS.get(data[j],0)+1
-                 pair_counter += 1
+    for i in range(0,n,2):
+        curr_item = data[i]
+        next_item = data[i+1]
 
-    assert pair_counter == int(n/2)
+        if curr_item == 'x':
+            points += POINT_MAPPINGS.get(next_item,0)+1
+            pair_counter += 1
+        elif next_item == 'x':
+            points += POINT_MAPPINGS.get(curr_item,0)+1
+            pair_counter += 1
+        else:
+            points += POINT_MAPPINGS.get(curr_item,0)+1
+            points += POINT_MAPPINGS.get(next_item,0)+1
+            pair_counter += 1 
+            
+
+    assert pair_counter == int(n/2),f"Expected {n//2} pairs, got {pair_counter}"
     
     return points
  
